@@ -1,0 +1,24 @@
+# code: language=ansible
+---
+- name: Install etckeeper
+  ansible.builtin.dnf:
+    name: etckeeper
+    state: installed
+
+- name: Check etckeeper initiated
+  ansible.builtin.stat:
+    path: /etc/.git
+  register: etckeeper_init
+
+- name: Etckeeper initial
+  ansible.builtin.command:
+    etckeeper init
+  when: not etckeeper_init.stat.exists
+  register: run_etckeeper_init
+  changed_when: run_etckeeper_init.rc == 0
+
+- name: Add cron job to generate list of packages
+  ansible.builtin.cron:
+    name: "list of packages"
+    job: "/usr/bin/rpm -qa | sort > /etc/packages.txt 2>/dev/null"
+    special_time: daily
