@@ -1,9 +1,7 @@
 # code: language=ansible
 ---
-- name: Install etckeeper
-  ansible.builtin.dnf:
-    name: etckeeper
-    state: installed
+- name: Install the correct etckeeper
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml"
 
 - name: Check etckeeper initiated
   ansible.builtin.stat:

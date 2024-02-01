@@ -1,0 +1,6 @@
+# code: language=ansible
+---
+- name: Update the repository cache and update package "etckeeper" at RedHat family
+  ansible.builtin.yum:
+    name: etckeeper
+    update_cache: true

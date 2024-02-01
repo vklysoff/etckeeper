@@ -1,0 +1,6 @@
+# code: language=ansible
+---
+- name: Update the repository cache and update package "etckeeper" at Debian family
+  ansible.builtin.apt:
+    name: etckeeper
+    update_cache: true
